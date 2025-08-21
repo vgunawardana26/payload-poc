@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+/* ======================================================
+   Tailwind v4 design tokens
+   - Define full palette in @theme (utilities read these)
+   - Default brand = BLUE (mapped to alias variables)
+   - Per-scope switches via .brand--blue / .brand--teal
+   ====================================================== */
+
+@theme {
+
+  /* Greys */
+  --color-grey-950: #030712;
+  --color-grey-900: #111827;
+  --color-grey-800: #1f2937;
+  --color-grey-700: #374151;
+  --color-grey-600: #4b5563;
+  --color-grey-500: #6b7280;
+  --color-grey-400: #9ca3af;
+  --color-grey-300: #d1d5db;
+  --color-grey-200: #e5e7eb;
+  --color-grey-100: #f3f4f6;
+  --color-grey-50:  #f9fafb;
+
+  /* Functional / Informative (blue) */
+  --color-info-950: #172554;
+  --color-info-900: #1e3a8a;
+  --color-info-800: #1e40af;
+  --color-info-700: #1d4ed8;
+  --color-info-600: #2563eb;
+  --color-info-500: #3b82f6;
+  --color-info-400: #60a5fa;
+  --color-info-300: #93c5fd;
+  --color-info-200: #bfdbfe;
+  --color-info-100: #dbeafe;
+  --color-info-50:  #eff6ff;
+
+  /* Functional / Positive (green) */
+  --color-success-950: #052e16;
+  --color-success-900: #14532d;
+  --color-success-800: #166534;
+  --color-success-700: #15803d;
+  --color-success-600: #16a34a;
+  --color-success-500: #22c55e;
+  --color-success-400: #4ade80;
+  --color-success-300: #86efac;
+  --color-success-200: #bbf7d0;
+  --color-success-100: #dcfce7;
+  --color-success-50:  #f0fdf4;
+
+  /* Functional / Warning (orange) */
+  --color-warning-950: #431407;
+  --color-warning-900: #7c2d12;
+  --color-warning-800: #9a3412;
+  --color-warning-700: #c2410c;
+  --color-warning-600: #ea580c;
+  --color-warning-500: #f97316;
+  --color-warning-400: #fb923c;
+  --color-warning-300: #fdba74;
+  --color-warning-200: #fed7aa;
+  --color-warning-100: #ffedd5;
+  --color-warning-50:  #fff7ed;
+
+  /* Functional / Error (red) */
+  --color-error-950: #450a0a;
+  --color-error-900: #7f1d1d;
+  --color-error-800: #991b1b;
+  --color-error-700: #b91c1c;
+  --color-error-600: #dc2626;
+  --color-error-500: #ef4444;
+  --color-error-400: #f87171;
+  --color-error-300: #fca5a5;
+  --color-error-200: #fecaca;
+  --color-error-100: #fee2e2;
+  --color-error-50:  #fef2f2;
+
+  /* Functional / Corrective (pink) */
+  --color-corrective-950: #500724;
+  --color-corrective-900: #831843;
+  --color-corrective-800: #9d174d;
+  --color-corrective-700: #be185d;
+  --color-corrective-600: #db2777;
+  --color-corrective-500: #ec4899;
+  --color-corrective-400: #f472b6;
+  --color-corrective-300: #f9a8d4;
+  --color-corrective-200: #fbcfe8;
+  --color-corrective-100: #fce7f3;
+  --color-corrective-50:  #fdf2f8;
+
+  /* Brand secondary (purple) */
+  --color-secondary-950: #3b0764;
+  --color-secondary-900: #581c87;
+  --color-secondary-800: #6b21a8;
+  --color-secondary-700: #7e22ce;
+  --color-secondary-600: #9333ea;
+  --color-secondary-500: #a855f7;
+  --color-secondary-400: #c084fc;
+  --color-secondary-300: #d8b4fe;
+  --color-secondary-200: #e9d5ff;
+  --color-secondary-100: #f3e8ff;
+  --color-secondary-50:  #faf5ff;
+
+  /* Accent */
+  --color-accent-canary: #fde047;
+
+
+  /* Primary BLUE palette */
+  --color-primary-blue-950: #061b46;
+  --color-primary-blue-900: #082663;
+  --color-primary-blue-800: #1828af;
+  --color-primary-blue-700: #2334c9;
+  --color-primary-blue-600: #3345df;
+  --color-primary-blue-500: #6776f8;
+  --color-primary-blue-400: #a9a3ff;
+  --color-primary-blue-300: #cac8ff;
+  --color-primary-blue-200: #e1e1ff;
+  --color-primary-blue-100: #f5f5ff;
+  --color-primary-blue-50:  #eff1ff;
+
+  /* Primary TEAL palette */
+  --color-primary-teal-950: #112730;
+  --color-primary-teal-900: #133844;
+  --color-primary-teal-800: #0c4f56;
+  --color-primary-teal-700: #036268;
+  --color-primary-teal-600: #007c85;
+  --color-primary-teal-500: #00b0aa;
+  --color-primary-teal-400: #3be0dd;
+  --color-primary-teal-300: #8ee8d8;
+  --color-primary-teal-200: #b8f4ea;
+  --color-primary-teal-100: #d7fdf5;
+  --color-primary-teal-50:  #f0fdfa;
+
+  /* Default mapping → points to blue by default */
+  --color-primary-950: var(--color-primary-blue-950);
+  --color-primary-900: var(--color-primary-blue-900);
+  --color-primary-800: var(--color-primary-blue-800);
+  --color-primary-700: var(--color-primary-blue-700);
+  --color-primary-600: var(--color-primary-blue-600);
+  --color-primary-500: var(--color-primary-blue-500);
+  --color-primary-400: var(--color-primary-blue-400);
+  --color-primary-300: var(--color-primary-blue-300);
+  --color-primary-200: var(--color-primary-blue-200);
+  --color-primary-100: var(--color-primary-blue-100);
+  --color-primary-50:  var(--color-primary-blue-50);
+}
+
+/* Force BLUE */
+.brand--blue {
+  --color-primary-950: var(--color-primary-blue-950);
+  --color-primary-900: var(--color-primary-blue-900);
+  --color-primary-800: var(--color-primary-blue-800);
+  --color-primary-700: var(--color-primary-blue-700);
+  --color-primary-600: var(--color-primary-blue-600);
+  --color-primary-500: var(--color-primary-blue-500);
+  --color-primary-400: var(--color-primary-blue-400);
+  --color-primary-300: var(--color-primary-blue-300);
+  --color-primary-200: var(--color-primary-blue-200);
+  --color-primary-100: var(--color-primary-blue-100);
+  --color-primary-50:  var(--color-primary-blue-50);
+}
+
+/* Force TEAL */
+.brand--teal {
+  --color-primary-950: var(--color-primary-teal-950);
+  --color-primary-900: var(--color-primary-teal-900);
+  --color-primary-800: var(--color-primary-teal-800);
+  --color-primary-700: var(--color-primary-teal-700);
+  --color-primary-600: var(--color-primary-teal-600);
+  --color-primary-500: var(--color-primary-teal-500);
+  --color-primary-400: var(--color-primary-teal-400);
+  --color-primary-300: var(--color-primary-teal-300);
+  --color-primary-200: var(--color-primary-teal-200);
+  --color-primary-100: var(--color-primary-teal-100);
+  --color-primary-50:  var(--color-primary-teal-50);
+}
+
