@@ -2,23 +2,32 @@ import { useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import { publicRoutes } from "./routes/public";
+import { DeviceSizeContextProvider } from "./globals/context/DeviceSizeContextProvider";
+import { AuthProvider } from "./globals/auth/AuthProvider";
+import { protectedRoutes } from "./routes/protected";
+import ProtectedRouteComponent from "./routes/ProtectedRouteComponent";
+import { ThemeProvider } from "./globals/context/ThemeProvider";
 
-const router = createBrowserRouter([...publicRoutes]);
+//App routes - public and private
+
+const router = createBrowserRouter([
+  ...publicRoutes,
+  ...protectedRoutes.map((route) => ({
+    ...route,
+    element: <ProtectedRouteComponent>{route.element}</ProtectedRouteComponent>,
+  })),
+]);
 
 function App() {
   return (
     <>
-      <RouterProvider router={router}>
-        <div className="brand--blue">
-          <div className="bg-primary-200">Hi there!</div>
-        </div>
-        <div className="brand--teal">
-          <div className="bg-primary-200">Hi there!</div>
-        </div>
-        <div className="brand--blue">
-          <div className="bg-accent-canary">Hi there!</div>
-        </div>
-      </RouterProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <DeviceSizeContextProvider>
+            <RouterProvider router={router}></RouterProvider>
+          </DeviceSizeContextProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </>
   );
 }

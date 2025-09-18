@@ -15,11 +15,13 @@ const dirname = path.dirname(filename)
 
 export default buildConfig({
   admin: {
+    disable: true,
     user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname),
     },
   },
+  cors: ['http://localhost:5173'],
   collections: [Users, Media, Questions],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
