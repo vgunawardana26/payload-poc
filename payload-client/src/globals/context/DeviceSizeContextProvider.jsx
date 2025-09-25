@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import useMediaQuery from "../../hooks/useMediaQUery";
+import useMediaQuery from "../../hooks/useMediaQuery";
 
 const DeviceContext = createContext();
 
