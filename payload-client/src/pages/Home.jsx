@@ -3,12 +3,14 @@ import { useDeviceSizeContext } from "../globals/context/DeviceSizeContextProvid
 import { useAuthContext } from "../globals/auth/AuthProvider";
 import clsx from "clsx";
 import { Navigate, useNavigate } from "react-router-dom";
-// import XXXL from "./../components/typography/index.js";
 import auth from "../services/auth/authService";
 import { Button } from "@edux-design/buttons";
 import { Field, Label, Input } from "@edux-design/forms";
-import { Chevron, Close, Eye } from "@edux-design/icons";
+import { Chevron, Close, Eye, Eyehide } from "@edux-design/icons";
 import { L, XL, XXL, XXXL } from "@edux-design/typography";
+import { EMAIL_REGEX } from "../utils/regex";
+import { emailOnlySchema, validate, passwordOnlySchema } from "../schemas/auth";
+import { Alert, Body, Title } from "@edux-design/alerts";
 
 function Home() {
   const { isSmall, isMedium, isLarge } = useDeviceSizeContext();
@@ -39,11 +41,12 @@ function Home() {
   const handleSubmit = async () => {
     try {
       const res = await auth.login(email, password);
+      console.log({ res });
       if (res?.data?.user) {
         setIsLoggedIn(true);
         navigate("/signed-in");
       } else {
-        setError(json.errors[0].message);
+        setError(res);
       }
     } catch (error) {
       console.error(error.message);
@@ -55,6 +58,9 @@ function Home() {
       navigate("/signed-in");
     }
   }, [isLoggedIn, loading, navigate]);
+
+  const emailValidity = validate(emailOnlySchema, { email });
+  const passwordValidity = validate(passwordOnlySchema, { password });
 
   return (
     <>
@@ -107,7 +113,17 @@ function Home() {
                   <Label hint={"required"}>Password</Label>
                   <Input
                     endIcon={
-                      <Eye onClick={() => setShowPassword(!showPassword)} />
+                      showPassword ? (
+                        <Eyehide
+                          className="cursor-pointer"
+                          onClick={() => setShowPassword(!showPassword)}
+                        />
+                      ) : (
+                        <Eye
+                          className="cursor-pointer"
+                          onClick={() => setShowPassword(!showPassword)}
+                        />
+                      )
                     }
                     type={showPassword ? "text" : "password"}
                     value={password}
@@ -116,10 +132,19 @@ function Home() {
                 </Field>
               </div>
               <div className="mt-8">
-                <Button isStretched onClick={() => handleSubmit()}>
+                <Button
+                  disabled={!emailValidity.success || !passwordValidity.success}
+                  isStretched
+                  onClick={() => handleSubmit()}
+                >
                   Log in
                 </Button>
-                {error && <div>{error}</div>}
+                {error && (
+                  <Alert type="error">
+                    <Title>Error cobba</Title>
+                    <Body>Shut up m8</Body>
+                  </Alert>
+                )}
               </div>
             </div>
           </div>

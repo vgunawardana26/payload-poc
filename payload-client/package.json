@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@edux-design/buttons": "^0.0.1",
+    "@edux-design/icons": "0.0.2",
     "@edux-design/forms": "^0.0.3",
     "@edux-design/tokens": "^0.0.4",
     "@edux-design/typography": "0.0.2",
+    "@edux-design/alerts": "0.0.1",
     "@tailwindcss/vite": "^4.1.12",
     "axios": "^1.11.0",
     "clsx": "^2.1.1",
@@ -21,7 +23,8 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.8.1",
-    "tailwindcss": "^4.1.12"
+    "tailwindcss": "^4.1.12",
+    "zod": "^4.1.9"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",

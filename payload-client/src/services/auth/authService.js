@@ -29,9 +29,11 @@ const login = async (email, password) => {
         },
       }
     );
+    // console.log({ res });
     return res;
   } catch (error) {
-    console.error(error.message);
+    console.error(error);
+    return { status: error.status, message: error.message };
   }
 };
 
