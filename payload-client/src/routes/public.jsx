@@ -1,10 +1,10 @@
 import ForgotPassword from "../pages/ForgotPassword";
-import Home from "../pages/Home";
+import Login from "../pages/Login";
 
 export const publicRoutes = [
   {
     path: "/",
-    element: <Home />,
+    element: <Login />,
   },
   {
     path: "/forgot-password",

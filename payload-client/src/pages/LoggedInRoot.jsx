@@ -23,7 +23,7 @@ import MathJaxRender from "../components/math/MathJaxRender";
 import { latexToHtml } from "../components/math/util/latexToMathHtml";
 import { parseHtmlWithLatex } from "../components/math/util/parseHtmlWithLatex";
 
-function SingedIn() {
+function LoggedInRoot() {
   const navigate = useNavigate();
   const { setIsLoggedIn } = useAuthContext();
   const [active, setActive] = useState("home");
@@ -108,4 +108,4 @@ function SingedIn() {
   );
 }
 
-export default SingedIn;
+export default LoggedInRoot;
