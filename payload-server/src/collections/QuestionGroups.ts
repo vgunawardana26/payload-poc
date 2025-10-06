@@ -56,34 +56,33 @@ export const QuestionGroups: CollectionConfig = {
     },
 
     {
-  name: 'relatedMediaKeys',
-  type: 'array',
-  label: 'Related Media',
-  fields: [
-    {
-      name: 'mapping',
-      type: 'group',
+      name: 'relatedMediaKeys',
+      type: 'array',
+      label: 'Related Media',
       fields: [
         {
-          name: 'originalValue',
-          type: 'text',
-          label: 'Original value', // e.g. original image key in XML/Contentful
-        },
-        {
-          name: 'placeholder',
-          type: 'text',
-          label: 'Placeholder token', // e.g. {{image-123}}
-        },
-        {
-          name: 'mediaRef',
-          type: 'relationship',
-          relationTo: 'media', // your Media collection
-          label: 'Current media reference', // e.g. actual file in S3
+          name: 'mapping',
+          type: 'group',
+          fields: [
+            {
+              name: 'originalValue',
+              type: 'text',
+              label: 'Original value', // e.g. original image key in XML/Contentful
+            },
+            {
+              name: 'placeholder',
+              type: 'text',
+              label: 'Placeholder token', // e.g. {{image-123}}
+            },
+            {
+              name: 'mediaRef',
+              type: 'relationship',
+              relationTo: 'media', // your Media collection
+              label: 'Current media reference', // e.g. actual file in S3
+            },
+          ],
         },
       ],
     },
-  ],
-}
-
   ],
 }

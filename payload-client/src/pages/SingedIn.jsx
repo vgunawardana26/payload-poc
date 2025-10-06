@@ -18,6 +18,10 @@ import {
 } from "../layout/Layout";
 import { Button } from "@edux-design/buttons";
 import axios from "../services/api/axios";
+import MathJaxWrapper from "../components/math/MathJaxWrapper";
+import MathJaxRender from "../components/math/MathJaxRender";
+import { latexToHtml } from "../components/math/util/latexToMathHtml";
+import { parseHtmlWithLatex } from "../components/math/util/parseHtmlWithLatex";
 
 function SingedIn() {
   const navigate = useNavigate();
@@ -97,14 +101,8 @@ function SingedIn() {
         >
           fetch
         </Button>
-        {res && <pre>{JSON.stringify(res, null, 2)}</pre>}
-        {JSON.stringify(res) !== JSON.stringify({}) && (
-          <img
-            src={`${import.meta.env.VITE_API_BASE_URL}/${
-              res?.data?.docs[0]?.url
-            }`}
-          />
-        )}
+        Some math
+        {parseHtmlWithLatex("$f(x) = y + x$")}
       </Content>
     </Layout>
   );
