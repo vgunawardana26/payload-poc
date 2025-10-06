@@ -1,8 +1,15 @@
+import Home from "../features/Home/Home";
 import LoggedInRoot from "../pages/LoggedInRoot";
 
 export const protectedRoutes = [
   {
-    path: "/signed-in",
+    path: "/home",
     element: <LoggedInRoot />,
+    children: [
+      {
+        path: "/home",
+        element: <Home />,
+      },
+    ],
   },
 ];

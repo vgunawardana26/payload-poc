@@ -16,12 +16,7 @@ import {
   Content,
   Header,
 } from "../layout/Layout";
-import { Button } from "@edux-design/buttons";
-import axios from "../services/api/axios";
-import MathJaxWrapper from "../components/math/MathJaxWrapper";
-import MathJaxRender from "../components/math/MathJaxRender";
-import { latexToHtml } from "../components/math/util/latexToMathHtml";
-import { parseHtmlWithLatex } from "../components/math/util/parseHtmlWithLatex";
+import { Outlet } from "react-router-dom";
 
 function LoggedInRoot() {
   const navigate = useNavigate();
@@ -87,22 +82,7 @@ function LoggedInRoot() {
         </Sidebar>
       </SidebarLayout>
       <Content>
-        <Button
-          onClick={() => {
-            axios
-              .get(`/api/media`, {
-                withCredentials: true,
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              })
-              .then((data) => setRes({ ...data }));
-          }}
-        >
-          fetch
-        </Button>
-        Some math
-        {parseHtmlWithLatex("$f(x) = y + x$")}
+        <Outlet />
       </Content>
     </Layout>
   );

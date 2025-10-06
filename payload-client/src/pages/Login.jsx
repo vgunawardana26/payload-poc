@@ -8,9 +8,9 @@ import { Button } from "@edux-design/buttons";
 import { Field, Label, Input } from "@edux-design/forms";
 import { Chevron, Close, Eye, Eyehide } from "@edux-design/icons";
 import { L, XL, XXL, XXXL } from "@edux-design/typography";
-import { EMAIL_REGEX } from "../utils/regex";
 import { emailOnlySchema, validate, passwordOnlySchema } from "../schemas/auth";
 import { Alert, Body, Title } from "@edux-design/alerts";
+import { useUserContext } from "../globals/context/User";
 
 function Home() {
   const { isSmall, isMedium, isLarge } = useDeviceSizeContext();
@@ -20,6 +20,7 @@ function Home() {
   const [error, setError] = useState();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { setCurrentUser } = useUserContext();
 
   const PAGE_CONTAINER_STYLES = clsx("flex", {
     "flex-col-reverse": isSmall,
@@ -43,8 +44,9 @@ function Home() {
       const res = await auth.login(email, password);
       console.log({ res });
       if (res?.data?.user) {
+        setCurrentUser(res.data);
         setIsLoggedIn(true);
-        navigate("/signed-in");
+        navigate("/home");
       } else {
         setError(res);
       }
@@ -55,7 +57,7 @@ function Home() {
 
   useEffect(() => {
     if (isLoggedIn && !loading) {
-      navigate("/signed-in");
+      navigate("/home");
     }
   }, [isLoggedIn, loading, navigate]);
 

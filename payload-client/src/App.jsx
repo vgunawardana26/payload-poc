@@ -8,6 +8,7 @@ import { protectedRoutes } from "./routes/protected";
 import ProtectedRouteComponent from "./routes/ProtectedRouteComponent";
 import { ThemeProvider } from "./globals/context/ThemeProvider";
 import MathJaxWrapper from "./components/math/MathJaxWrapper";
+import { UserContextProvider } from "./globals/context/User";
 //App routes - public and private
 
 const router = createBrowserRouter([
@@ -23,11 +24,13 @@ function App() {
     <>
       <ThemeProvider>
         <AuthProvider>
-          <DeviceSizeContextProvider>
-            <MathJaxWrapper>
-              <RouterProvider router={router}></RouterProvider>
-            </MathJaxWrapper>
-          </DeviceSizeContextProvider>
+          <UserContextProvider>
+            <DeviceSizeContextProvider>
+              <MathJaxWrapper>
+                <RouterProvider router={router}></RouterProvider>
+              </MathJaxWrapper>
+            </DeviceSizeContextProvider>
+          </UserContextProvider>
         </AuthProvider>
       </ThemeProvider>
     </>
