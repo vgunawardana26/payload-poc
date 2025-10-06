@@ -17,7 +17,7 @@
     "@edux-design/typography": "0.0.2",
     "@edux-design/alerts": "0.0.1",
     "@tailwindcss/vite": "^4.1.12",
-    "@edux-design/chrome": "0.0.3",
+    "@edux-design/chrome": "0.0.4",
     "axios": "^1.11.0",
     "clsx": "^2.1.1",
     "dotenv": "^17.2.1",

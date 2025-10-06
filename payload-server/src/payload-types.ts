@@ -69,6 +69,9 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    questions: Question;
+    questionGroups: QuestionGroup;
+    metaData: MetaDatum;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -77,12 +80,15 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    questions: QuestionsSelect<false> | QuestionsSelect<true>;
+    questionGroups: QuestionGroupsSelect<false> | QuestionGroupsSelect<true>;
+    metaData: MetaDataSelect<false> | MetaDataSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
   globals: {};
   globalsSelect: {};
@@ -118,7 +124,8 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
+  id: number;
+  roles?: ('admin' | 'editor' | 'user')[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -128,13 +135,6 @@ export interface User {
   hash?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
   password?: string | null;
 }
 /**
@@ -142,7 +142,7 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
+  id: number;
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -158,23 +158,306 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "questions".
+ */
+export interface Question {
+  id: number;
+  type: 'written-response' | 'multiple-choice';
+  hasGroup?: boolean | null;
+  groupId?: (number | null) | QuestionGroup;
+  label?: {
+    raw?: string | null;
+    normalised?: string | null;
+  };
+  position?: number | null;
+  stimulus?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  marks?: number | null;
+  questionContent?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  working_lines?: number | null;
+  workedSolutionHtml?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  relatedMediaKeys?:
+    | {
+        originalValue?: string | null;
+        placeholder?: string | null;
+        mediaRef?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  subparts?:
+    | {
+        label?: {
+          raw?: string | null;
+          normalised?: string | null;
+        };
+        position?: number | null;
+        stimulus?: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        questionContent?: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        marks?: number | null;
+        working_lines?: number | null;
+        workedSolutionHtml?: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        relatedMediaKeys?:
+          | {
+              originalValue?: string | null;
+              placeholder?: string | null;
+              mediaRef?: (number | null) | Media;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  promptHtml?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  choices?:
+    | {
+        key?: {
+          raw?: string | null;
+          normalised?: string | null;
+        };
+        position?: number | null;
+        html?: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        id?: string | null;
+      }[]
+    | null;
+  answers?:
+    | {
+        key?: {
+          raw?: string | null;
+          normalised?: string | null;
+        };
+        position?: number | null;
+        html?: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        id?: string | null;
+      }[]
+    | null;
+  metaData?: (number | null) | MetaDatum;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "questionGroups".
+ */
+export interface QuestionGroup {
+  id: number;
+  type: string;
+  number?: string | null;
+  stimulus?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  marks?: number | null;
+  questions: {
+    question: number | Question;
+    position: number;
+    id?: string | null;
+  }[];
+  metaData?: (number | MetaDatum)[] | null;
+  relatedMediaKeys?:
+    | {
+        mapping?: {
+          originalValue?: string | null;
+          placeholder?: string | null;
+          mediaRef?: (number | null) | Media;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "metaData".
+ */
+export interface MetaDatum {
+  id: number;
+  exam_reference?: {
+    authority?: string | null;
+    year?: number | null;
+    subject?: string | null;
+    exam?: string | null;
+    cas?: boolean | null;
+    stats?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: number;
   document?:
     | ({
         relationTo: 'users';
-        value: string | User;
+        value: number | User;
       } | null)
     | ({
         relationTo: 'media';
-        value: string | Media;
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'questions';
+        value: number | Question;
+      } | null)
+    | ({
+        relationTo: 'questionGroups';
+        value: number | QuestionGroup;
+      } | null)
+    | ({
+        relationTo: 'metaData';
+        value: number | MetaDatum;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -184,10 +467,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: number;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   key?: string | null;
   value?:
@@ -207,7 +490,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -218,6 +501,7 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  roles?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -227,13 +511,6 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
-  sessions?:
-    | T
-    | {
-        id?: T;
-        createdAt?: T;
-        expiresAt?: T;
-      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -252,6 +529,140 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "questions_select".
+ */
+export interface QuestionsSelect<T extends boolean = true> {
+  type?: T;
+  hasGroup?: T;
+  groupId?: T;
+  label?:
+    | T
+    | {
+        raw?: T;
+        normalised?: T;
+      };
+  position?: T;
+  stimulus?: T;
+  marks?: T;
+  questionContent?: T;
+  working_lines?: T;
+  workedSolutionHtml?: T;
+  relatedMediaKeys?:
+    | T
+    | {
+        originalValue?: T;
+        placeholder?: T;
+        mediaRef?: T;
+        id?: T;
+      };
+  subparts?:
+    | T
+    | {
+        label?:
+          | T
+          | {
+              raw?: T;
+              normalised?: T;
+            };
+        position?: T;
+        stimulus?: T;
+        questionContent?: T;
+        marks?: T;
+        working_lines?: T;
+        workedSolutionHtml?: T;
+        relatedMediaKeys?:
+          | T
+          | {
+              originalValue?: T;
+              placeholder?: T;
+              mediaRef?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  promptHtml?: T;
+  choices?:
+    | T
+    | {
+        key?:
+          | T
+          | {
+              raw?: T;
+              normalised?: T;
+            };
+        position?: T;
+        html?: T;
+        id?: T;
+      };
+  answers?:
+    | T
+    | {
+        key?:
+          | T
+          | {
+              raw?: T;
+              normalised?: T;
+            };
+        position?: T;
+        html?: T;
+        id?: T;
+      };
+  metaData?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "questionGroups_select".
+ */
+export interface QuestionGroupsSelect<T extends boolean = true> {
+  type?: T;
+  number?: T;
+  stimulus?: T;
+  marks?: T;
+  questions?:
+    | T
+    | {
+        question?: T;
+        position?: T;
+        id?: T;
+      };
+  metaData?: T;
+  relatedMediaKeys?:
+    | T
+    | {
+        mapping?:
+          | T
+          | {
+              originalValue?: T;
+              placeholder?: T;
+              mediaRef?: T;
+            };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "metaData_select".
+ */
+export interface MetaDataSelect<T extends boolean = true> {
+  exam_reference?:
+    | T
+    | {
+        authority?: T;
+        year?: T;
+        subject?: T;
+        exam?: T;
+        cas?: T;
+        stats?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
