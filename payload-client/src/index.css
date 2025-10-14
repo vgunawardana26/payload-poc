@@ -1,2 +1,26 @@
 @import "@edux-design/tokens/theme";
 @source "../node_modules/@edux-design";
+
+@layer components {
+
+  /* Tiptap’s internal content wrapper */
+  .editor-container .tiptap.ProseMirror {
+    @apply min-h-[200px] focus:outline-none;
+  }
+
+  /* Image styling */
+  .editor-container .editor-content img {
+    @apply max-w-full my-2;
+  }
+
+  /* Optional: custom focus style (replace outline) */
+  .editor-container .tiptap.ProseMirror:focus-within {
+    @apply outline-none;
+  }
+
+  /* Example of adding a custom border or padding */
+  .editor-container .tiptap.ProseMirror {
+    @apply border-2 border-transparent p-4 rounded-md;
+  }
+
+}

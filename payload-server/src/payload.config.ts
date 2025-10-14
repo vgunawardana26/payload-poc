@@ -28,6 +28,16 @@ export default buildConfig({
   cors: ['http://localhost:5173'],
   collections: [Users, Media, Questions, QuestionGroups, MetaData],
   editor: lexicalEditor(),
+  endpoints: [
+    {
+      path: '/oauth',
+      method: 'get',
+      handler: async (req) => {
+        console.log({ req })
+        return Response.json({ res: 'Hello oauth route!' })
+      },
+    },
+  ],
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

@@ -6,21 +6,33 @@ export const Users: CollectionConfig = {
   admin: {
     useAsTitle: 'email',
   },
-  auth: {useSessions: false },
+  auth: { useSessions: false },
   fields: [
     {
-      name: 'roles', 
+      name: 'roles',
       type: 'select',
       hasMany: true,
       saveToJWT: true,
       options: [
-        {label: 'Admin', value: 'admin'},
-        {label: 'editor', value: 'editor'},
-        {label: 'user', value: 'user'}
+        { label: 'Admin', value: 'admin' },
+        { label: 'editor', value: 'editor' },
+        { label: 'user', value: 'user' },
       ],
       hooks: {
-        beforeChange: [protectRoles]
-      }
-    }
+        beforeChange: [protectRoles],
+      },
+    },
+    {
+      name: 'firstName',
+      type: 'text',
+      hasMany: false,
+      saveToJWT: true,
+    },
+    {
+      name: 'lastName',
+      type: 'text',
+      hasMany: false,
+      saveToJWT: true,
+    },
   ],
 }

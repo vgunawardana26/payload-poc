@@ -71,13 +71,10 @@ function Home() {
               GO admin area.
             </XXL>
             <XXL isBold color="secondary">
-              Manage product.
+              Create once.
             </XXL>
             <XXL isBold color="secondary">
-              Build content.
-            </XXL>
-            <XXL isBold color="secondary">
-              View documentation.
+              Publish everywhere.
             </XXL>
             <img src="pencil.svg" className="h-[200px] w-[400px]" />
           </div>
