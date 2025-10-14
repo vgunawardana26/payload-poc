@@ -10,17 +10,16 @@ import { Chevron, Close, Eye, Eyehide } from "@edux-design/icons";
 import { L, XL, XXL, XXXL } from "@edux-design/typography";
 import { emailOnlySchema, validate, passwordOnlySchema } from "../schemas/auth";
 import { Alert, Body, Title } from "@edux-design/alerts";
-import { useUserContext } from "../globals/context/User";
 
 function Home() {
   const { isSmall, isMedium, isLarge } = useDeviceSizeContext();
-  const { isLoggedIn, loading, setIsLoggedIn } = useAuthContext();
+  const { isLoggedIn, loading, setIsLoggedIn, currentUser, setCurrentUser } =
+    useAuthContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { setCurrentUser } = useUserContext();
 
   const PAGE_CONTAINER_STYLES = clsx("flex", {
     "flex-col-reverse": isSmall,
@@ -42,7 +41,6 @@ function Home() {
   const handleSubmit = async () => {
     try {
       const res = await auth.login(email, password);
-      console.log({ res });
       if (res?.data?.user) {
         setCurrentUser(res.data);
         setIsLoggedIn(true);

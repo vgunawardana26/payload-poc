@@ -67,6 +67,17 @@ function LoggedInRoot() {
               onClick={() => setActive("prefs")}
             />
           </SidebarSection>
+          <SidebarSection title="Test feature">
+            <SidebarItem
+              icon={<Settings />}
+              label="Test Feature"
+              active={active === "test"}
+              onClick={() => {
+                setActive("test");
+                navigate("/home/test");
+              }}
+            />
+          </SidebarSection>
 
           <SidebarFooter>
             <div>

@@ -6,24 +6,26 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import auth from "../../services/auth/authService";
 
-const AuthContext = createContext({});
+const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState({});
 
   useEffect(() => {
     const getLoggedInState = async () => {
       try {
         const res = await auth.getMeUser();
         const { data } = res;
-
         if (data.user === null || data.exp === 0) {
           setIsLoggedIn(false);
         } else {
+          setCurrentUser({ ...data });
           setIsLoggedIn(true);
         }
       } catch (err) {
+        setCurrentUser({});
         setIsLoggedIn(false);
       } finally {
         setLoading(false);
@@ -37,6 +39,8 @@ export function AuthProvider({ children }) {
     isLoggedIn,
     setIsLoggedIn,
     loading,
+    currentUser,
+    setCurrentUser,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
